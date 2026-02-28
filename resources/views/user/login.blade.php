@@ -34,10 +34,7 @@
                     <label class="block text-slate-600 mb-2">Email</label>
                     <div
                         class="flex items-center bg-white border border-slate-200 rounded-lg px-4 py-3 focus-within:ring-2 focus-within:ring-blue-400">
-                        <svg class="w-5 h-5 text-slate-400 mr-3" fill="none" stroke="currentColor" stroke-width="2"
-                            viewBox="0 0 24 24">
-                            <path d="M16 12H8m8 0l-8-6m8 6l-8 6"></path>
-                        </svg>
+                        <x-heroicon-s-at-symbol class="w-6 h-6 text-gray-500 mr-3" />
                         <input type="email" name="email" value="{{ old('email') }}"
                             placeholder="example@example.com"
                             class="w-full outline-none bg-transparent text-slate-600 placeholder-slate-400" required />
@@ -48,18 +45,11 @@
                     <label class="block text-slate-600 mb-2">Password</label>
                     <div
                         class="flex items-center bg-white border border-slate-200 rounded-lg px-4 py-3 focus-within:ring-2 focus-within:ring-blue-400">
-                        <svg class="w-5 h-5 text-slate-400 mr-3" fill="none" stroke="currentColor" stroke-width="2"
-                            viewBox="0 0 24 24">
-                            <path d="M12 11c1.657 0 3-1.343 3-3V6a3 3 0 10-6 0v2c0 1.657 1.343 3 3 3z" />
-                            <path d="M5 11h14v8H5z" />
-                        </svg>
+                        <x-heroicon-s-lock-closed class="w-6 h-6 text-gray-500 mr-3" />
                         <input type="password" name="password" placeholder="Enter your password"
                             class="w-full outline-none bg-transparent text-slate-600 placeholder-slate-400" required />
-                        <svg class="w-5 h-5 text-slate-400 ml-3 cursor-pointer" fill="none" stroke="currentColor"
-                            stroke-width="2" viewBox="0 0 24 24">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z" />
-                            <circle cx="12" cy="12" r="3" />
-                        </svg>
+                        <x-heroicon-s-eye-slash class="w-6 h-6 text-gray-500 ml-3 cursor-pointer" />
+                        <x-heroicon-s-eye class="w-6 h-6 text-gray-500 ml-3 cursor-pointer hidden" />
                     </div>
                 </div>
 
