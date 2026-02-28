@@ -1,11 +1,27 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\AuthController as AdminAuthController;
+use App\Http\Controllers\User\AuthController as UserAuthController;
+use App\Http\Controllers\User\DashboardController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+// User authentication routes
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [UserAuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [UserAuthController::class, 'login'])->name('login.post');
+});
+
+// Protected user area
+Route::middleware('auth')->group(function () {
+    Route::get('/home', [DashboardController::class, 'index'])->name('home');
+
+    Route::post('/logout', [UserAuthController::class, 'logout'])->name('logout');
+});
+
 
 Route::prefix('admin')->name('admin.')->group(function () {
     // Guest Admin (Belum Login)
