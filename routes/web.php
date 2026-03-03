@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\User\AuthController as UserAuthController;
 use App\Http\Controllers\User\DashboardController;
+use App\Http\Controllers\User\CourseController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -18,6 +19,7 @@ Route::middleware('guest')->group(function () {
 // Protected user area
 Route::middleware('auth')->group(function () {
     Route::get('/home', [DashboardController::class, 'index'])->name('home');
+    Route::get('/course/{id}', [CourseController::class, 'index']);
 
     Route::post('/logout', [UserAuthController::class, 'logout'])->name('logout');
 });
@@ -25,8 +27,8 @@ Route::middleware('auth')->group(function () {
 
 Route::prefix('admin')->name('admin.')->group(function () {
     // Guest Admin (Belum Login)
-    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+    Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AdminAuthController::class, 'login'])->name('login.post');
 
     // Protected Admin (Hanya Admin yang bisa masuk)
     // Kita pakai middleware 'auth' bawaan Laravel DAN 'admin' buatan kita
@@ -35,6 +37,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
             return view('admin.dashboard'); 
         })->name('dashboard');
 
-        Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+        Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
     });
 });
