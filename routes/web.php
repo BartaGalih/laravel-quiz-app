@@ -1,14 +1,18 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\AuthController as AdminAuthController;
-use App\Http\Controllers\User\AuthController as UserAuthController;
+use App\Http\Controllers\Admin\AuthController      as AdminAuthController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\CourseController    as AdminCourseController;
+use App\Http\Controllers\Admin\QuizController      as AdminQuizController;
+use App\Http\Controllers\Admin\UserController      as AdminUserController;
+use App\Http\Controllers\Admin\ResultController    as AdminResultController;
+use App\Http\Controllers\User\AuthController       as UserAuthController;
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\CourseController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// ── Root redirect ────────────────────────────────────────────────────────────
+Route::get('/', fn () => redirect()->route('login'));
 
 // User authentication routes
 Route::middleware('guest')->group(function () {
@@ -24,19 +28,37 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [UserAuthController::class, 'logout'])->name('logout');
 });
 
-
+// ── Admin area ───────────────────────────────────────────────────────────────
 Route::prefix('admin')->name('admin.')->group(function () {
-    // Guest Admin (Belum Login)
-    Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AdminAuthController::class, 'login'])->name('login.post');
 
-    // Protected Admin (Hanya Admin yang bisa masuk)
-    // Kita pakai middleware 'auth' bawaan Laravel DAN 'admin' buatan kita
+    // Public admin auth routes
+    Route::middleware('guest')->group(function () {
+        Route::get('/login',  [AdminAuthController::class, 'showLogin'])->name('login');
+        Route::post('/login', [AdminAuthController::class, 'login'])->name('login.post');
+    });
+
+    // Protected admin routes
     Route::middleware(['auth', 'admin'])->group(function () {
-        Route::get('/dashboard', function () {
-            return view('admin.dashboard'); 
-        })->name('dashboard');
 
+        // Dashboard
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+        // Courses
+        Route::resource('courses', AdminCourseController::class);
+        Route::post('/courses/{course}/toggle-publish', [AdminCourseController::class, 'togglePublish'])
+             ->name('courses.toggle-publish');
+
+        // Quizzes
+        Route::resource('quizzes', AdminQuizController::class);
+
+        // Users
+        Route::resource('users', AdminUserController::class)->only(['index', 'show', 'destroy']);
+
+        // Results
+        Route::get('/results',       [AdminResultController::class, 'index'])->name('results.index');
+        Route::get('/results/{attempt}', [AdminResultController::class, 'show'])->name('results.show');
+
+        // Logout
         Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
     });
 });
