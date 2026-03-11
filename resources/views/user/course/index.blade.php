@@ -13,19 +13,7 @@
     <div class="min-h-screen bg-gray-100">
 
         {{-- TOP NAVBAR --}}
-        <header class="bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-between">
-            <nav class="flex items-center gap-2 text-gray-400 text-base">
-                <a href="{{ route('home') }}" class="hover:text-gray-600 transition-colors">Courses</a>
-                <x-heroicon-o-chevron-right class="w-4 h-4" />
-                <span class="font-bold text-gray-900">{{ $course['title'] }}</span>
-            </nav>
-            <div class="flex items-center gap-2 text-gray-700">
-                <span class="text-xl font-semibold">Settings</span>
-                <div class="w-10 h-10 rounded-full border-2 border-gray-300 flex items-center justify-center">
-                    <x-heroicon-s-cog-6-tooth class="w-5 h-5 text-gray-700" />
-                </div>
-            </div>
-        </header>
+        <x-top-navbar  :breadcrumbs="$breadcrumbs"/>
 
         {{-- SEARCH & SORT BAR --}}
         <div class="flex w-full w-screen main-content">
@@ -66,7 +54,7 @@
                         {{-- Content Items --}}
                         <div class="px-8 py-6 space-y-4">
 
-                            @foreach ($course['items'] as $item)
+                            @foreach ($items as $item)
                                 @if ($item['type'] === 'material')
                                     {{-- PDF Material --}}
                                     <div
@@ -107,7 +95,7 @@
                                     </div>
                                 @elseif ($item['type'] === 'quiz')
                                     {{-- Quiz --}}
-                                    <div
+                                    <div onclick="window.location.href='{{ route('quiz.preview', $item['id']) }}'"
                                         class="bg-white rounded-2xl border border-gray-200 shadow-sm px-5 py-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer">
                                         <div
                                             class="w-12 h-12 rounded-xl bg-green-500 flex items-center justify-center flex-shrink-0">

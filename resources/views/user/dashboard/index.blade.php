@@ -13,16 +13,7 @@
     <div class="min-h-screen bg-gray-100">
 
         {{-- TOP NAVBAR --}}
-        <header class="bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-between">
-            <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">Courses</h1>
-            <div class="flex items-center gap-2 text-gray-700">
-                <span class="text-xl font-semibold">Settings</span>
-                <div class="w-10 h-10 rounded-full border-2 border-gray-300 flex items-center justify-center">
-                    <x-heroicon-s-cog-6-tooth class="w-5 h-5 text-gray-700" />
-                </div>
-            </div>
-        </header>
-
+        <x-top-navbar />
         {{-- SEARCH & SORT BAR --}}
         <div class="flex w-full w-screen main-content">
             <div class="left-part flex-1 min-w-0">

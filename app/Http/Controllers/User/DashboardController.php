@@ -36,6 +36,7 @@ class DashboardController extends Controller
                 'progress' => 20,
             ],
         ];
+
         $data['todos'] = [
             [
                 'title' => 'Complete Laravel course',
@@ -53,6 +54,7 @@ class DashboardController extends Controller
                 'due' => 'Fri, 21 Jan, 12:00 PM',
             ],
         ];
+        
         return view('user.dashboard.index', $data);
     }
 }

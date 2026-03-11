@@ -22,8 +22,9 @@ Route::middleware('guest')->group(function () {
 
 // Protected user area
 Route::middleware('auth')->group(function () {
-    Route::get('/home', [DashboardController::class, 'index'])->name('home');
-    Route::get('/course/{id}', [CourseController::class, 'index']);
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/course/{id}', [CourseController::class, 'index'])->name('course');
+    Route::get('/quiz/preview/{id}', [CourseController::class, 'quizPreview'])->name('quiz.preview');
 
     Route::post('/logout', [UserAuthController::class, 'logout'])->name('logout');
 });
@@ -34,7 +35,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Public admin auth routes
     Route::middleware('guest')->group(function () {
         Route::get('/login',  [AdminAuthController::class, 'showLogin'])->name('login');
-        Route::post('/login', [AdminAuthController::class, 'login'])->name('login.post');
+    Route::post('/login', [AdminAuthController::class, 'login'])->name('login.post');
     });
 
     // Protected admin routes
