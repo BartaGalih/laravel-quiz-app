@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AuthController      as AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
@@ -31,15 +32,21 @@ Route::middleware('auth')->group(function () {
 
 // ── Admin area ───────────────────────────────────────────────────────────────
 Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', function () {
+        if (Auth::guard('admin')->check()) {
+            return redirect()->route('admin.dashboard');
+        }
+        return redirect()->route('admin.login');
+    });
 
     // Public admin auth routes
-    Route::middleware('guest')->group(function () {
+    Route::middleware('admin.guest')->group(function () {
         Route::get('/login',  [AdminAuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AdminAuthController::class, 'login'])->name('login.post');
+        Route::post('/login', [AdminAuthController::class, 'login'])->name('login.post');
     });
 
     // Protected admin routes
-    Route::middleware(['auth', 'admin'])->group(function () {
+    Route::middleware('admin')->group(function () {
 
         // Dashboard
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');

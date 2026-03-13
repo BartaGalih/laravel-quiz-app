@@ -13,8 +13,7 @@ class UserController extends Controller
 {
     public function index(Request $request): View
     {
-        $query = User::where('is_admin', false)
-                     ->withCount(['enrollments', 'quizAttempts'])
+        $query = User::withCount(['enrollments', 'quizAttempts'])
                      ->latest();
 
         if ($search = $request->get('search')) {
@@ -40,8 +39,6 @@ class UserController extends Controller
 
     public function destroy(User $user): RedirectResponse
     {
-        abort_if($user->is_admin, 403, 'Cannot delete an admin account.');
-
         $user->delete();
 
         return redirect()->route('admin.users.index')

@@ -10,21 +10,10 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        // Admin
-        User::create([
-            'name'       => 'Admin',
-            'email'      => 'admin@example.com',
-            'password'   => Hash::make('password'),
-            'is_admin'   => true,
-            'created_at' => now()->subMonths(6),
-            'updated_at' => now()->subMonths(6),
-        ]);
-
         User::create([
             'name'       => 'User',
             'email'      => 'user@example.com',
             'password'   => Hash::make('password'),
-            'is_admin'   => false,
             'created_at' => now()->subMonths(6),
             'updated_at' => now()->subMonths(6),
         ]);
@@ -48,7 +37,6 @@ class UserSeeder extends Seeder
                 'name'       => $student['name'],
                 'email'      => $student['email'],
                 'password'   => Hash::make('password'),
-                'is_admin'   => false,
                 'created_at' => now()->subDays(rand(10, 90)),
                 'updated_at' => now()->subDays(rand(1, 9)),
             ]);

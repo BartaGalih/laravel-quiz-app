@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Database\Seeders\AdminSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -10,7 +11,8 @@ class DatabaseSeeder extends Seeder
     {
         // Urutan penting — ikuti dependency antar tabel
         $this->call([
-            UserSeeder::class,                  // 1. users (admin + students)
+            AdminSeeder::class,                 // 0. administrators table
+            UserSeeder::class,                  // 1. users (students)
             CourseSeeder::class,                // 2. courses
             CourseMaterialSeeder::class,        // 3. course_materials
             QuizSeeder::class,                  // 4. quizzes

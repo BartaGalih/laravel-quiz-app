@@ -19,7 +19,7 @@ class EnrollmentAndProgressSeeder extends Seeder
 {
     public function run(): void
     {
-        $students  = User::where('is_admin', false)->get();
+        $students  = User::all();
         $courses   = Course::where('is_published', true)->with(['materials', 'quizzes.questions.options'])->get();
 
         foreach ($students as $student) {

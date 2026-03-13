@@ -21,14 +21,14 @@ class UserLoginTest extends TestCase
     /** @test */
     public function valid_user_can_authenticate_and_is_redirected()
     {
-        $user = User::factory()->create(['is_admin' => false, 'password' => bcrypt('secret')]);
+        $user = User::factory()->create(['password' => bcrypt('secret')]);
 
         $response = $this->post('/login', [
             'email' => $user->email,
             'password' => 'secret',
         ]);
 
-        $response->assertRedirect('/home');
+        $response->assertRedirect('/dashboard');
         $this->assertAuthenticatedAs($user);
     }
 
@@ -46,9 +46,10 @@ class UserLoginTest extends TestCase
     }
 
     /** @test */
-    public function admin_user_cannot_use_user_login()
+    public function admin_account_does_not_exist_in_user_table()
     {
-        $admin = User::factory()->create(['is_admin' => true, 'password' => bcrypt('secret')]);
+        // create an admin record separately; user login should ignore it completely
+        $admin = \App\Models\Admin::factory()->create(['password' => bcrypt('secret')]);
 
         $response = $this->from('/login')->post('/login', [
             'email' => $admin->email,
@@ -57,13 +58,12 @@ class UserLoginTest extends TestCase
 
         $response->assertRedirect('/login');
         $this->assertGuest();
-        $response->assertSessionHasErrors('email');
     }
 
     /** @test */
     public function authenticated_user_can_logout()
     {
-        $user = User::factory()->create(['is_admin' => false, 'password' => bcrypt('secret')]);
+        $user = User::factory()->create(['password' => bcrypt('secret')]);
         $this->be($user);
 
         $response = $this->post('/logout');

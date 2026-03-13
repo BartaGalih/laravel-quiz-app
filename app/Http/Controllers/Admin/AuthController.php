@@ -19,9 +19,9 @@ class AuthController extends Controller
         ]);
 
         // Cek login & pastikan dia adalah admin
-        if (Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password'], 'is_admin' => true])) {
+        if (Auth::guard('admin')->attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('admin.dashboard');
+            return redirect()->intended(route('admin.dashboard'));
         }
 
         return back()->withErrors([
@@ -30,7 +30,7 @@ class AuthController extends Controller
     }
 
     public function logout(Request $request) {
-        Auth::logout();
+        Auth::guard('admin')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect('/admin/login');

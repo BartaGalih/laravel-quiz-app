@@ -14,9 +14,8 @@ class DashboardController extends Controller
     public function index()
     {
         $stats = [
-            'total_users'         => User::where('is_admin', false)->count(),
-            'new_users_this_month'=> User::where('is_admin', false)
-                                         ->whereMonth('created_at', now()->month)
+            'total_users'         => User::count(),
+            'new_users_this_month'=> User::whereMonth('created_at', now()->month)
                                          ->whereYear('created_at', now()->year)
                                          ->count(),
             'total_courses'       => Course::count(),
